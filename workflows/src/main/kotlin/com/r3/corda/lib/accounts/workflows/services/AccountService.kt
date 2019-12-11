@@ -110,6 +110,12 @@ interface AccountService : SerializeAsToken {
     fun accountInfo(name: String): List<StateAndRef<AccountInfo>>
 
     /**
+     * Customized login call get a single account buy phone or account number
+     * @param phoneOrNumber this may be an account name or phone or bank account
+     */
+    fun accountInfoAuth(phoneOrNumber: String): StateAndRef<AccountInfo>?
+
+    /**
      * Shares an [AccountInfo] [StateAndRef] with the specified [Party]. The [AccountInfo]is always stored by the
      * recipient using [StatesToRecord.ALL_VISIBLE].
      *
@@ -132,4 +138,10 @@ interface AccountService : SerializeAsToken {
 
     @Suspendable
     fun <T : StateAndRef<*>> shareStateAndSyncAccounts(state: T, party: Party): CordaFuture<Unit>
+
+
+    /**
+     * Get account by unique    account number assigned on creation
+     */
+    fun accountInfoByAccountNumber(accountNumber: String): StateAndRef<AccountInfo>?
 }

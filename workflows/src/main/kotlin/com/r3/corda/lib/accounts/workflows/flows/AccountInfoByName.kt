@@ -3,6 +3,7 @@ package com.r3.corda.lib.accounts.workflows.flows
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo
 import com.r3.corda.lib.accounts.workflows.accountService
+import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService
 import net.corda.core.contracts.StateAndRef
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.StartableByRPC
@@ -21,4 +22,21 @@ class AccountInfoByName(private val name: String) : FlowLogic<List<StateAndRef<A
     override fun call(): List<StateAndRef<AccountInfo>> {
         return accountService.accountInfo(name)
     }
+}
+
+
+/**
+ * Start the user login flow
+ */
+@StartableByRPC
+class ClientLoginAccountsFlow(private val phoneOrEmail: String) : FlowLogic<StateAndRef<AccountInfo>?>() {
+    override fun call(): StateAndRef<AccountInfo>? {
+        val cordaService = serviceHub.cordaService(KeyManagementBackedAccountService::class.java)
+        return if (phoneOrEmail != "") {
+            cordaService.accountInfoAuth(phoneOrEmail)
+        } else {
+            null
+        }
+    }
+
 }

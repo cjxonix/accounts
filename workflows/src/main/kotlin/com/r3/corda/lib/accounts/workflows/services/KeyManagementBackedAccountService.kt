@@ -63,6 +63,24 @@ class KeyManagementBackedAccountService(val services: AppServiceHub) : AccountSe
         }
     }
 
+    /**
+     * Return the account details by email of phone when used as account name
+     */
+    override fun accountInfoAuth(phoneOrNumber: String): StateAndRef<AccountInfo>? {
+        return services.vaultService.queryBy(AccountInfo::class.java).states
+                .filter { it.state.data.name == phoneOrNumber}
+                .map { it }.singleOrNull()
+    }
+
+    /**
+     * Get account by unique    account number assigned on creation
+     */
+    override fun accountInfoByAccountNumber(accountNumber: String): StateAndRef<AccountInfo>? {
+        return services.vaultService.queryBy(AccountInfo::class.java).states
+                .filter { it.state.data.accountNumber == accountNumber }
+                .map { it }.singleOrNull()
+    }
+
     @Suspendable
     override fun createAccount(name: String): CordaFuture<StateAndRef<AccountInfo>> {
         return flowAwareStartFlow(CreateAccount(name))
