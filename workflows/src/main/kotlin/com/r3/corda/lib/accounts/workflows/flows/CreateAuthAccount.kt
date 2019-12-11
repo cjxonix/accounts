@@ -49,7 +49,8 @@ class CreateAuthAccount private constructor(
                 lastName = ai.lastName,
                 passwordHash = ai.passwordHash,
                 email = ai.email,
-                phone = ai.phone
+                phone = ai.phone,
+                displayName = ai.displayName
         )
 
         val transactionBuilder = TransactionBuilder(notary = notary).apply {

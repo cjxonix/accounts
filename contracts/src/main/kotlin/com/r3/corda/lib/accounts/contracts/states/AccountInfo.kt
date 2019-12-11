@@ -28,6 +28,7 @@ data class AccountInfo(
         val identifier: UniqueIdentifier
 ) : LinearState, QueryableState {
 
+    var displayName: String? = null
     var firstName: String? = null
     var lastName: String? = null
     var phone: String? = null
@@ -49,7 +50,8 @@ data class AccountInfo(
     fun updateOptionalFields(
             firstName: String?, lastName: String?,
             phone: String? = null, email: String? = null,
-            passwordHash: String? = null, accountNumber: String? = null
+            passwordHash: String? = null, accountNumber: String? = null,
+            displayName: String?
     ): AccountInfo {
         this.firstName = firstName
         this.lastName = lastName
@@ -57,6 +59,7 @@ data class AccountInfo(
         this.email = email
         this.passwordHash = passwordHash
         this.accountNumber = accountNumber
+        this.displayName = displayName
         return this
     }
 
@@ -67,6 +70,7 @@ data class AccountInfo(
                     host = host,
                     id = identifier.id,
                     firstName = firstName,
+                    displayName = displayName,
                     lastName = lastName,
                     phone = phone,
                     email = email,

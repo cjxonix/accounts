@@ -33,6 +33,8 @@ data class PersistentAccountInfo(
         @Column(name = "host", unique = false, nullable = false)
         val host: Party,
         //Added extra auth fields
+        @Column(name = "displayName", unique = false, nullable = true)
+        val displayName: String?,
         @Column(name = "firstName", unique = false, nullable = true)
         val firstName: String?,
         @Column(name = "lastName", unique = false, nullable = true)
